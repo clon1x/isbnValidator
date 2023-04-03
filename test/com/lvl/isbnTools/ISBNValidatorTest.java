@@ -8,7 +8,16 @@ class ISBNValidatorTest {
 
 	@Test
 	void should_ReturnTrue_When_ISBNIsValid() {
-		fail("Not yet implemented");
+
+		// given
+		int isbn = 1719587213;
+		ISBNValidator validator = new ISBNValidator();
+
+		// when
+		boolean isValid = validator.isValidISBN(isbn);
+
+		// then
+		assertTrue(isValid);
 	}
 
 }
