@@ -20,4 +20,20 @@ class ISBNValidatorTest {
 		assertTrue(isValid);
 	}
 
+	@Test
+	void should_ReturnFalse_When_ISBNIsNotValid() {
+
+		// given
+		int isbn = 1719587214;
+		ISBNValidator validator = new ISBNValidator();
+
+		// when
+		boolean isValid = validator.isValidISBN(isbn);
+
+		// then
+		assertFalse(isValid);
+	}
+	
+	
+	
 }
