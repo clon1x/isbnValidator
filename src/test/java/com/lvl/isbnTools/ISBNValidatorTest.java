@@ -1,16 +1,20 @@
 package com.lvl.isbnTools;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
 class ISBNValidatorTest {
 
-	@Test
-	void should_ReturnTrue_When_ISBNIsValid() {
+	@ParameterizedTest(name = "isbn:{0}")
+	@CsvFileSource(resources = "/validIsbn10Codes.csv")
+	void should_ReturnTrue_When_ISBNIsValid(long isbnCandidate) {
 
 		// given
-		int isbn = 1719587213;
+		long isbn = isbnCandidate;
 		ISBNValidator validator = new ISBNValidator();
 
 		// when
