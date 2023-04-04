@@ -11,10 +11,10 @@ class ISBNValidatorTest {
 
 	@ParameterizedTest(name = "isbn:{0}")
 	@CsvFileSource(resources = "/validIsbn10Codes.csv")
-	void should_ReturnTrue_When_ISBNIsValid(long isbnCandidate) {
+	void should_ReturnTrue_When_ISBNIsValid(String isbnCandidate) {
 
 		// given
-		long isbn = isbnCandidate;
+		String isbn = isbnCandidate;
 		ISBNValidator validator = new ISBNValidator();
 
 		// when
@@ -28,7 +28,7 @@ class ISBNValidatorTest {
 	void should_ReturnFalse_When_ISBNIsNotValid() {
 
 		// given
-		int isbn = 1719587214;
+		String isbn = "1719587214";
 		ISBNValidator validator = new ISBNValidator();
 
 		// when
