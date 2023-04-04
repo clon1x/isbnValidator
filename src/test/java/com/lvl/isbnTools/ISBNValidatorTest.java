@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
@@ -40,10 +39,10 @@ class ISBNValidatorTest {
 	
 		@ParameterizedTest(name = "isbn:{0}")
 		@CsvFileSource(resources = "/invalidIsbn10Codes.csv")
-		void should_ReturnFalse_When_ISBNIsNotValid() {
+		void should_ReturnFalse_When_ISBNIsNotValid(String isbnCandidate) {
 	
 			// given
-			String isbn = "1719587214";
+			String isbn = isbnCandidate;
 	
 			// when
 			boolean isValid = validator.isValidISBN(isbn);
@@ -52,11 +51,12 @@ class ISBNValidatorTest {
 			assertFalse(isValid);
 		}
 		
-		@Test
-		void should_ThrowError_When_ISBNHasLessThan10Digits() {
+		@ParameterizedTest(name = "isbn:{0}")
+		@CsvFileSource(resources = "/wrongFormatIsbn10Codes.csv")
+		void should_ThrowNumberFormatException_When_ISBNHasOtherThan10Digits(String isbnCandidate) {
 			
 			// given
-			String isbn = "171958721";
+			String isbn = isbnCandidate;
 			
 			// when 
 			Executable checkValid = () -> validator.isValidISBN(isbn);
