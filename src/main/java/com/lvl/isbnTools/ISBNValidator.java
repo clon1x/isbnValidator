@@ -4,7 +4,7 @@ public class ISBNValidator {
 
 	public boolean isValidISBN(String isbn) {
 		
-		if (isbn.length() != 10) throw new NumberFormatException(); 
+		if (isbn.length() != 10) throw new NumberFormatException(Messages.getString("ISBNValidator.0")); //$NON-NLS-1$
 		
 		int total = 0;
 		
