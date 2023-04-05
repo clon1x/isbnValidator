@@ -9,7 +9,9 @@ public class ISBNValidator {
 		int total = 0;
 		
 		for (int i = 0; i < 10; i++) {
-			total += (10-i)*(int) isbn.charAt(i);
+			char c = isbn.charAt(i);
+			if (!Character.isDigit(c)) throw new NumberFormatException(Messages.getString("ISBNValidator.1")); //$NON-NLS-1$
+			total += (10-i)*(int) c;
 		}
 		
 		return (total % 11 == 0);
