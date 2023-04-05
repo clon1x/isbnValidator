@@ -24,7 +24,7 @@ class ISBNValidatorTest {
 	class IsValidISBNTests {
 	
 		@ParameterizedTest(name = "isbn:{0}")
-		@CsvFileSource(resources = "/validIsbn10Codes.csv")
+		@CsvFileSource(resources = "/validIsbnCodes.csv")
 		void should_ReturnTrue_When_ISBNIsValid(String isbnCandidate) {
 	
 			// given
@@ -39,7 +39,7 @@ class ISBNValidatorTest {
 		}
 	
 		@ParameterizedTest(name = "isbn:{0}")
-		@CsvFileSource(resources = "/invalidIsbn10Codes.csv")
+		@CsvFileSource(resources = "/invalidIsbnCodes.csv")
 		void should_ReturnFalse_When_ISBNIsNotValid(String isbnCandidate) {
 	
 			// given
@@ -53,7 +53,7 @@ class ISBNValidatorTest {
 		}
 		
 		@ParameterizedTest(name = "isbn:{0}")
-		@CsvFileSource(resources = "/wrongFormatIsbn10Codes.csv")
+		@CsvFileSource(resources = "/wrongFormatIsbnCodes.csv")
 		void should_ThrowNumberFormatException_When_ISBNHasOtherThan10Digits(String isbnCandidate) {
 			
 			// given
