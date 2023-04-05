@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
@@ -64,7 +65,20 @@ class ISBNValidatorTest {
 			// then
 			assertThrows(NumberFormatException.class, checkValid);
 		}
-	
+		
+		@Test
+		void should_ThrowNumberFormatException_When_ISBNIsString() {
+			
+			// given
+			String isbn = "HelloWorld";
+			
+			// when 
+			Executable checkValid = () -> validator.isValidISBN(isbn);
+			
+			// then
+			assertThrows(NumberFormatException.class, checkValid);
+		}
+		
 	}
 	
 }
