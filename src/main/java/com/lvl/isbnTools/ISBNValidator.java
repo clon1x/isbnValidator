@@ -3,9 +3,16 @@ package com.lvl.isbnTools;
 public class ISBNValidator {
 
 	public boolean isValidISBN(String isbn) {
+		if (isbn.length() == 10)
+			return isValidISBN10(isbn);
+		if (isbn.length() == 13)
+			return isValidISBN13(isbn);
 		
-		if (isbn.length() != 10) throw new NumberFormatException(Messages.getString("ISBNValidator.0")); //$NON-NLS-1$
-		
+		throw new NumberFormatException(Messages.getString("ISBNValidator.0")); //$NON-NLS-1$
+	}
+
+	private static boolean isValidISBN10(String isbn) {
+
 		int total = 0;
 		isbn = isbn.toUpperCase(); 
 		
@@ -22,4 +29,10 @@ public class ISBNValidator {
 
 		return (total % 11 == 0);
 	}
+
+	private boolean isValidISBN13(String isbn) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
