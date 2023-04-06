@@ -31,7 +31,18 @@ public class ISBNValidator {
 	}
 
 	private boolean isValidISBN13(String isbn) {
-		return true;
+		
+		int total = 0, digit = 0;
+		
+		for (int i = 0; i < 13; i++) {
+			char c = isbn.charAt(i);
+			if (!Character.isDigit(c)) throw new NumberFormatException(Messages.getString("ISBNValidator.2")); //$NON-NLS-1$
+			
+			digit = Character.getNumericValue(c);
+			total += digit * (1 + 2 * (i % 2));
+		}
+		
+		return (total % 10 == 0);
 	}
 
 }
