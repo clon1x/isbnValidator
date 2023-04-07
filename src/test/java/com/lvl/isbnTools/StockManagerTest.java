@@ -1,8 +1,9 @@
 package com.lvl.isbnTools;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.times;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -13,6 +14,17 @@ import com.lvl.isbnTools.service.ISBNDataService;
 
 class StockManagerTest {
 
+	private static ISBNDataService databaseServiceMock;
+	private static ISBNDataService webServiceMock;
+	private static StockManager manager;
+
+	@BeforeEach
+	void setup() {
+		databaseServiceMock = Mockito.mock(ISBNDataService.class);
+		webServiceMock = Mockito.mock(ISBNDataService.class);
+		manager = new StockManager(webServiceMock, databaseServiceMock);
+	}
+	
 	@Test
 	void should_ReturnCorrectLocatorCode_When_ValidISBN() {
 
@@ -34,25 +46,33 @@ class StockManagerTest {
 
 		// given
 		String isbn = "012000030X";
-		String expected = "030XC5";
-		ISBNDataService databaseServiceMock = Mockito.mock(ISBNDataService.class);
-		ISBNDataService webServiceMock = Mockito.mock(ISBNDataService.class);
-		StockManager manager = new StockManager(webServiceMock, databaseServiceMock);
-
 		Mockito.when(databaseServiceMock.lookup("012000030X"))
-				.thenReturn(new Book("012000030X", "The Last of the Mohicans", "Cooper, James Fenimore"));
+		.thenReturn(new Book("012000030X", "The Last of the Mohicans", "Cooper, James Fenimore"));
 
 		// when
-		String locatorCode = manager.getLocatorCode(isbn);
+		manager.getLocatorCode(isbn);
 
 		// then
-		assertEquals(expected, locatorCode);
+		Mockito.verify(databaseServiceMock, times(1)).lookup("012000030X");
+		Mockito.verify(webServiceMock, times(0)).lookup("012000030X");
 
 	}
 
 	@Test
 	void should_UseCloudVersion_When_ISBNNotInDatabase() {
-		fail("Not implemented");
+
+		// given
+		String isbn = "012000030X";
+		Mockito.when(webServiceMock.lookup("012000030X"))
+		.thenReturn(new Book("012000030X", "The Last of the Mohicans", "Cooper, James Fenimore"));
+
+		// when
+		manager.getLocatorCode(isbn);
+
+		// then
+		Mockito.verify(databaseServiceMock, times(1)).lookup("012000030X");
+		Mockito.verify(webServiceMock, times(1)).lookup("012000030X");
+
 	}
 
 }
