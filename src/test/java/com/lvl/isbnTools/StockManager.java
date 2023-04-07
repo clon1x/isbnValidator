@@ -1,20 +1,25 @@
 package com.lvl.isbnTools;
 
 import com.lvl.isbnTools.model.Book;
-import com.lvl.isbnTools.service.ExternalISBNDataService;
+import com.lvl.isbnTools.service.ISBNDataService;
 
 public class StockManager {
 
-	private ExternalISBNDataService isbnLookupService;
+	private ISBNDataService webService;
+	private ISBNDataService databaseService;
 	
-	public StockManager(ExternalISBNDataService isbnLookupService) {
+	public StockManager(ISBNDataService webService, ISBNDataService databaseService) {
 		super();
-		this.isbnLookupService = isbnLookupService;
+		this.webService = webService;
+		this.databaseService = databaseService;
 	}
 
 	public String getLocatorCode(String isbn) {
+	
 		StringBuilder code = new StringBuilder();
-		Book book = isbnLookupService.lookup(isbn);
+		
+		Book book = databaseService.lookup(isbn); 
+		if (book == null) book = webService.lookup(isbn);
 		
 		code.append(isbn.substring(isbn.length()-4));
 		code.append(book.getAuthor().toUpperCase().charAt(0));
