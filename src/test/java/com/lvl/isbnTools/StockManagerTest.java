@@ -1,7 +1,7 @@
 package com.lvl.isbnTools;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.never;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -55,8 +55,8 @@ class StockManagerTest {
 		stockManager.getLocatorCode(isbn);
 
 		// then
-		Mockito.verify(databaseServiceMock, times(1)).lookup(ISBN_CODE);
-		Mockito.verify(webServiceMock, times(0)).lookup(Mockito.anyString());
+		Mockito.verify(databaseServiceMock ).lookup(ISBN_CODE);
+		Mockito.verify(webServiceMock, never()).lookup(Mockito.anyString());
 
 	}
 
@@ -70,8 +70,8 @@ class StockManagerTest {
 		stockManager.getLocatorCode(isbn);
 
 		// then
-		Mockito.verify(databaseServiceMock, times(1)).lookup(ISBN_CODE);
-		Mockito.verify(webServiceMock, times(1)).lookup(ISBN_CODE);
+		Mockito.verify(databaseServiceMock).lookup(ISBN_CODE);
+		Mockito.verify(webServiceMock).lookup(ISBN_CODE);
 
 	}
 
