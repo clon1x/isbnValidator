@@ -14,15 +14,17 @@ import com.lvl.isbnTools.service.ISBNDataService;
 
 class StockManagerTest {
 
+	private static final String EXPECTED_LOCATOR_CODE = "030XC5";
+	private static final String ISBN_CODE = "012000030X";
 	private static ISBNDataService databaseServiceMock;
 	private static ISBNDataService webServiceMock;
-	private static StockManager manager;
+	private static StockManager stockManager;
 
 	@BeforeEach
 	void setup() {
 		databaseServiceMock = Mockito.mock(ISBNDataService.class);
 		webServiceMock = Mockito.mock(ISBNDataService.class);
-		manager = new StockManager(webServiceMock, databaseServiceMock);
+		stockManager = new StockManager(webServiceMock, databaseServiceMock);
 	}
 	
 	@Test
@@ -30,8 +32,8 @@ class StockManagerTest {
 
 		// given
 		StockManager db = new StockManager(new BookWebServiceDataStub(), new BookDatabaseStub());
-		String isbn = "012000030X";
-		String expected = "030XC5";
+		String isbn = ISBN_CODE;
+		String expected = EXPECTED_LOCATOR_CODE;
 
 		// when
 		String locatorCode = db.getLocatorCode(isbn);
@@ -45,16 +47,16 @@ class StockManagerTest {
 	void should_UseDatabaseVersion_When_ISBNInDatabase() {
 
 		// given
-		String isbn = "012000030X";
-		Mockito.when(databaseServiceMock.lookup("012000030X"))
-		.thenReturn(new Book("012000030X", "The Last of the Mohicans", "Cooper, James Fenimore"));
+		String isbn = ISBN_CODE;
+		Mockito.when(databaseServiceMock.lookup(ISBN_CODE))
+		.thenReturn(new Book(ISBN_CODE, "The Last of the Mohicans", "Cooper, James Fenimore"));
 
 		// when
-		manager.getLocatorCode(isbn);
+		stockManager.getLocatorCode(isbn);
 
 		// then
-		Mockito.verify(databaseServiceMock, times(1)).lookup("012000030X");
-		Mockito.verify(webServiceMock, times(0)).lookup("012000030X");
+		Mockito.verify(databaseServiceMock, times(1)).lookup(ISBN_CODE);
+		Mockito.verify(webServiceMock, times(0)).lookup(ISBN_CODE);
 
 	}
 
@@ -62,16 +64,16 @@ class StockManagerTest {
 	void should_UseCloudVersion_When_ISBNNotInDatabase() {
 
 		// given
-		String isbn = "012000030X";
-		Mockito.when(webServiceMock.lookup("012000030X"))
-		.thenReturn(new Book("012000030X", "The Last of the Mohicans", "Cooper, James Fenimore"));
+		String isbn = ISBN_CODE;
+		Mockito.when(webServiceMock.lookup(ISBN_CODE))
+		.thenReturn(new Book(ISBN_CODE, "The Last of the Mohicans", "Cooper, James Fenimore"));
 
 		// when
-		manager.getLocatorCode(isbn);
+		stockManager.getLocatorCode(isbn);
 
 		// then
-		Mockito.verify(databaseServiceMock, times(1)).lookup("012000030X");
-		Mockito.verify(webServiceMock, times(1)).lookup("012000030X");
+		Mockito.verify(databaseServiceMock, times(1)).lookup(ISBN_CODE);
+		Mockito.verify(webServiceMock, times(1)).lookup(ISBN_CODE);
 
 	}
 
