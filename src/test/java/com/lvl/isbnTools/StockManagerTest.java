@@ -65,8 +65,6 @@ class StockManagerTest {
 
 		// given
 		String isbn = ISBN_CODE;
-		Mockito.when(databaseServiceMock.lookup(ISBN_CODE))
-		.thenReturn(null);
 		
 		// when
 		stockManager.getLocatorCode(isbn);
