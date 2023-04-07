@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 import com.lvl.isbnTools.service.BookDatabaseStub;
-import com.lvl.isbnTools.service.ExternalISBNDataStub;
+import com.lvl.isbnTools.service.BookWebServiceDataStub;
 
 class StockManagerTest {
 
@@ -14,7 +14,7 @@ class StockManagerTest {
 	void should_ReturnCorrectLocatorCode_When_ValidISBN() {
 		
 		// given
-		StockManager db = new StockManager(new ExternalISBNDataStub(), new BookDatabaseStub());
+		StockManager db = new StockManager(new BookWebServiceDataStub(), new BookDatabaseStub());
 		String isbn = "012000030X";
 		String expected = "030XC5";
 		

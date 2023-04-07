@@ -5,11 +5,11 @@ import java.util.TreeMap;
 
 import com.lvl.isbnTools.model.Book;
 
-public class ExternalISBNDataStub implements ISBNDataService {
+public class BookWebServiceDataStub implements ISBNDataService {
 
 	private Map<String, Book> books;
 	
-	public ExternalISBNDataStub() {
+	public BookWebServiceDataStub() {
 		books = new TreeMap<>();
 		books.put("012000030X", new Book("012000030X", "The last of the Mohicans", "Cooper, James Fenimore"));
 	}
