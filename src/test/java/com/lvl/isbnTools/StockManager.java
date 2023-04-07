@@ -5,16 +5,21 @@ import com.lvl.isbnTools.service.ExternalISBNDataService;
 
 public class StockManager {
 
-	private ExternalISBNDataService isbnLookupService;
+	private ExternalISBNDataService webService;
+	private ExternalISBNDataService databaseService;
 	
-	public StockManager(ExternalISBNDataService isbnLookupService) {
+	public StockManager(ExternalISBNDataService webService, ExternalISBNDataService databaseService) {
 		super();
-		this.isbnLookupService = isbnLookupService;
+		this.webService = webService;
+		this.databaseService = databaseService;
 	}
 
 	public String getLocatorCode(String isbn) {
+	
 		StringBuilder code = new StringBuilder();
-		Book book = isbnLookupService.lookup(isbn);
+		
+		Book book = databaseService.lookup(isbn); 
+		if (book == null) book = webService.lookup(isbn);
 		
 		code.append(isbn.substring(isbn.length()-4));
 		code.append(book.getAuthor().toUpperCase().charAt(0));
