@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.lvl.isbnTools.model.Book;
-import com.lvl.isbnTools.service.BookDatabaseStub;
-import com.lvl.isbnTools.service.BookWebServiceDataStub;
 import com.lvl.isbnTools.service.ISBNDataService;
 
 class StockManagerTest {
@@ -25,18 +23,20 @@ class StockManagerTest {
 		databaseServiceMock = Mockito.mock(ISBNDataService.class);
 		webServiceMock = Mockito.mock(ISBNDataService.class);
 		stockManager = new StockManager(webServiceMock, databaseServiceMock);
+
+		Mockito.when(webServiceMock.lookup(ISBN_CODE))
+		.thenReturn(new Book(ISBN_CODE, "The Last of the Mohicans", "Cooper, James Fenimore"));
 	}
 	
 	@Test
 	void should_ReturnCorrectLocatorCode_When_ValidISBN() {
 
 		// given
-		StockManager db = new StockManager(new BookWebServiceDataStub(), new BookDatabaseStub());
 		String isbn = ISBN_CODE;
 		String expected = EXPECTED_LOCATOR_CODE;
 
 		// when
-		String locatorCode = db.getLocatorCode(isbn);
+		String locatorCode = stockManager.getLocatorCode(isbn);
 
 		// then
 		assertEquals(expected, locatorCode);
@@ -56,7 +56,7 @@ class StockManagerTest {
 
 		// then
 		Mockito.verify(databaseServiceMock, times(1)).lookup(ISBN_CODE);
-		Mockito.verify(webServiceMock, times(0)).lookup(ISBN_CODE);
+		Mockito.verify(webServiceMock, times(0)).lookup(Mockito.anyString());
 
 	}
 
@@ -65,9 +65,9 @@ class StockManagerTest {
 
 		// given
 		String isbn = ISBN_CODE;
-		Mockito.when(webServiceMock.lookup(ISBN_CODE))
-		.thenReturn(new Book(ISBN_CODE, "The Last of the Mohicans", "Cooper, James Fenimore"));
-
+		Mockito.when(databaseServiceMock.lookup(ISBN_CODE))
+		.thenReturn(null);
+		
 		// when
 		stockManager.getLocatorCode(isbn);
 
