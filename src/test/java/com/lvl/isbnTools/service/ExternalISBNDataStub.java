@@ -5,7 +5,7 @@ import java.util.TreeMap;
 
 import com.lvl.isbnTools.model.Book;
 
-public class ExternalISBNDataStub implements ExternalISBNDataService {
+public class ExternalISBNDataStub implements ISBNDataService {
 
 	private Map<String, Book> books;
 	

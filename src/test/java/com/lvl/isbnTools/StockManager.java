@@ -1,14 +1,14 @@
 package com.lvl.isbnTools;
 
 import com.lvl.isbnTools.model.Book;
-import com.lvl.isbnTools.service.ExternalISBNDataService;
+import com.lvl.isbnTools.service.ISBNDataService;
 
 public class StockManager {
 
-	private ExternalISBNDataService webService;
-	private ExternalISBNDataService databaseService;
+	private ISBNDataService webService;
+	private ISBNDataService databaseService;
 	
-	public StockManager(ExternalISBNDataService webService, ExternalISBNDataService databaseService) {
+	public StockManager(ISBNDataService webService, ISBNDataService databaseService) {
 		super();
 		this.webService = webService;
 		this.databaseService = databaseService;
